@@ -6,7 +6,7 @@ def decidePipleine(Map configMap){
     switch(application) {
         case 'nodeJSVM':
             echo "application is Node JS and VM based"
-            //nodeJSVMCI(configMap)
+            nodeJSVMCI(configMap)
             break
         case 'JavaVM':
             javaVMCI(configMap)

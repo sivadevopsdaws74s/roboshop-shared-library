@@ -68,21 +68,41 @@ def call(Map configMap){
                 }
             }
 
-            //here I need to configure downstram job. I have to pass package version for deployment
-            // This job will wait until downstrem job is over
-            // by default when a non-master branch CI is done, we can go for DEV development
-            stage('Deploy') {
+            stage('Docker Build') {
                 steps {
                     script{
-                        echo "Deployment"
-                        def params = [
-                            string(name: 'version', value: "$packageVersion"),
-                            string(name: 'environment', value: "dev")
-                        ]
-                        build job: "../${component}-deploy", wait: true, parameters: params
+                        sh """
+                            docker build -t joindevops/${component}:${packageVersion} .
+                        """
                     }
                 }
             }
+        //just make sure you login inside agent
+            stage('Docker Push') {
+                steps {
+                    script{
+                        sh """
+                            docker push joindevops/${component}:${packageVersion}
+                        """
+                    }
+                }
+            }
+
+            //here I need to configure downstram job. I have to pass package version for deployment
+            // This job will wait until downstrem job is over
+            // by default when a non-master branch CI is done, we can go for DEV development
+            // stage('Deploy') {
+            //     steps {
+            //         script{
+            //             echo "Deployment"
+            //             def params = [
+            //                 string(name: 'version', value: "$packageVersion"),
+            //                 string(name: 'environment', value: "dev")
+            //             ]
+            //             build job: "../${component}-deploy", wait: true, parameters: params
+            //         }
+            //     }
+            // }
         }
 
         post{

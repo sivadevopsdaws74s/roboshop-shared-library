@@ -94,7 +94,7 @@ def call(Map configMap){
                         sh """
                             cd helm
                             sed -i 's/IMAGE_VERSION/$packageVersion/g' values.yaml
-                            helm upgrade ${component} -n roboshop .
+                            helm install ${component} -n roboshop .
                         """
                     }
                 }

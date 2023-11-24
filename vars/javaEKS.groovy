@@ -45,6 +45,7 @@ def call(Map configMap){
                 steps {
                     sh "mvn package"
                     sh 'ls -ltr'
+                    sh "ls -l target"
                 }
             }
             stage('SAST') {

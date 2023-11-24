@@ -94,6 +94,10 @@ def call(Map configMap){
                         // also available as a Groovy variable
                         // or inside double quotes for string interpolation
                         echo "username is $USERNAME"
+                        sh """
+                            docker login -u $USERNAME -p $PASSWORD
+                            docker push joindevops/${component}:${packageVersion}
+                        """
                     }
                         // sh """
                         //     docker push joindevops/${component}:${packageVersion}

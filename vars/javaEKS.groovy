@@ -68,7 +68,7 @@ def call(Map configMap){
                         artifacts: [
                             [artifactId: "${component}",
                             classifier: '',
-                            file: "./target/${component}.jar",
+                            file: "./target/${component}-${pomMap.version}.jar",
                             type: 'jar']
                         ]
                     )

@@ -8,6 +8,8 @@ def call(Map configMap){
         environment{
             //here if you create any variable you will have global access, since it is environment no need of def
             packageVersion = ''
+            ACCOUNT_ID = "315069654700"
+            REGION = "us-east-1"
         }
         
         stages {
@@ -102,6 +104,18 @@ def call(Map configMap){
                         // sh """
                         //     docker push joindevops/${component}:${packageVersion}
                         // """
+                    }
+                }
+            }
+
+            stage('ECR Push'){
+                steps{
+                    script{
+                        sh """
+                        aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+                        docker tag joindevops/${component}:${packageVersion} ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${component}:${packageVersion}
+                        docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${component}:${packageVersion}
+                        """
                     }
                 }
             }

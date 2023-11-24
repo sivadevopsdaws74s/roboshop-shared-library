@@ -29,11 +29,7 @@ def call(Map configMap){
                     }
                 }
             }
-            stage('Install depdencies') {
-                steps {
-                    sh 'npm install'
-                }
-            }
+            
             stage('Unit test') {
                 steps {
                     echo "unit testing is done here"
@@ -47,8 +43,8 @@ def call(Map configMap){
             }
             stage('Build') {
                 steps {
+                    sh "mvn package"
                     sh 'ls -ltr'
-                    sh "zip -r ${component}.zip ./* --exclude=.git --exclude=.zip"
                 }
             }
             stage('SAST') {

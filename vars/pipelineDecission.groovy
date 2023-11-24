@@ -16,7 +16,7 @@ def decidePipleine(Map configMap){
             javaVMCI(configMap)
             break
         case 'javaEKS':
-            javaVMCI(configMap)
+            javaEKS(configMap)
             break
         default:
             error "Un recognised application"
